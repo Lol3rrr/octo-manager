@@ -11,6 +11,7 @@ import (
 	ssh "github.com/helloyi/go-sshclient"
 )
 
+// Config is a simple struct that holds the basic server config
 type Config struct {
 	ServerAddress string `json:"address"`
 	ServerPort    string `json:"port"`
@@ -18,8 +19,8 @@ type Config struct {
 	SSHKeyPath    string `json:"sshkeyfile"`
 }
 
-func loadConfig() (*Config, error) {
-	configContent, err := ioutil.ReadFile("./config.json")
+func loadConfig(path string) (*Config, error) {
+	configContent, err := ioutil.ReadFile(path)
 	if err != nil {
 		return &Config{}, err
 	}
@@ -34,9 +35,12 @@ func loadConfig() (*Config, error) {
 }
 
 func main() {
-	fmt.Printf("Starting... \n")
+	configPathPtr := flag.String("config", "config.json", "The Path for the Server-Config")
+	jobPathPtr := flag.String("job", "job.json", "The path for job definition")
 
-	conf, err := loadConfig()
+	flag.Parse()
+
+	conf, err := loadConfig(*configPathPtr)
 	if err != nil {
 		fmt.Printf("[Error] Could not load Config: %v \n", err)
 		return
@@ -55,10 +59,6 @@ func main() {
 
 	jobSession := jobs.CreateSession(client)
 
-	jobPathPtr := flag.String("job", "job.json", "The path for job definition")
-
-	flag.Parse()
-
 	jobConfigContent, err := ioutil.ReadFile(*jobPathPtr)
 	if err != nil {
 		fmt.Printf("[Error] Could not read Job-Config: %v \n", err)
@@ -71,7 +71,10 @@ func main() {
 	err = jobSession.RunJob(&job, jobs.Environment{
 		"image": "lol3r/personal_site:latest",
 	})
-	fmt.Printf("Jobs Error: '%v' \n", err)
+
+	if err != nil {
+		fmt.Printf("Jobs Error: '%v' \n", err)
+	}
 
 	return
 }

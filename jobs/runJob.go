@@ -5,7 +5,7 @@ import (
 )
 
 func (session *Session) RunJob(job *Job, env Environment) error {
-	fmt.Printf("[Job] Starting '%s' \n", job.Name)
+	fmt.Printf("[Job][%s] Starting... \n", job.Name)
 
 	for _, stage := range job.Stages {
 		err := stage.Run(session.SSHClient, env)
