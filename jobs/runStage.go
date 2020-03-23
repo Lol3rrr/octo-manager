@@ -1,38 +1,17 @@
 package jobs
 
 import (
-	"errors"
 	"fmt"
-
-	"octo-manager/docker"
-
-	ssh "github.com/helloyi/go-sshclient"
 )
 
-func (stage *Stage) Run(sshClient *ssh.Client, env Environment) error {
+func (session *Session) RunStage(stage *Stage) error {
 	fmt.Printf("[Stage][%s] Starting... \n", stage.Name)
-	defer fmt.Printf("[Stage][%s] Done \n", stage.Name)
 
-	if stage.Category == "docker" {
-		if stage.Action == "pull" {
-			imageName, found := env["image"]
-			if !found {
-				return errors.New("Does not contain all needed Env-Variables")
-			}
-
-			return docker.PullImage(sshClient, imageName)
+	for _, module := range session.Modules {
+		if module.GetCategory() == stage.Category {
+			return module.RunStage(stage, session.SSHClient, session.Env)
 		}
-		if stage.Action == "compose up" {
-			composeDir, found := stage.Variables["dir"]
-			if !found {
-				return errors.New("Does not contain all needed Variables")
-			}
-
-			return docker.ComposeUp(sshClient, composeDir)
-		}
-
-		return errors.New("Could not find Action in 'docker'-Category")
 	}
 
-	return errors.New("Could not find Category")
+	return fmt.Errorf("Could not find Category: '%s'", stage.Category)
 }

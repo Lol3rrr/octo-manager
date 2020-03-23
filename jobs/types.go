@@ -8,11 +8,13 @@ import (
 type Session struct {
 	Modules   []Module
 	SSHClient *ssh.Client
+	Env       Environment
 }
 
 // Module is a simple abstraction, that represents a single Category
 type Module interface {
 	GetCategory() string
+	RunStage(*Stage, *ssh.Client, Environment) error
 }
 
 // Job defines a single Job, like deployment, and includes

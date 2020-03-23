@@ -5,7 +5,10 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"os"
+	"strings"
 
+	"octo-manager/docker"
 	"octo-manager/jobs"
 
 	ssh "github.com/helloyi/go-sshclient"
@@ -34,6 +37,21 @@ func loadConfig(path string) (*Config, error) {
 	return &result, nil
 }
 
+func getEnvironment() jobs.Environment {
+	result := jobs.Environment{}
+
+	rawEnvs := os.Environ()
+	for _, rawEnv := range rawEnvs {
+		envContent := strings.Split(rawEnv, "=")
+
+		key := envContent[0]
+		value := envContent[1]
+		result[key] = value
+	}
+
+	return result
+}
+
 func main() {
 	configPathPtr := flag.String("config", "config.json", "The Path for the Server-Config")
 	jobPathPtr := flag.String("job", "job.json", "The path for job definition")
@@ -57,7 +75,11 @@ func main() {
 	}
 	defer client.Close()
 
-	jobSession := jobs.CreateSession(client)
+	jobSession := jobs.CreateSession(
+		client,
+		getEnvironment(),
+		docker.NewModule(),
+	)
 
 	jobConfigContent, err := ioutil.ReadFile(*jobPathPtr)
 	if err != nil {
@@ -68,9 +90,7 @@ func main() {
 	var job jobs.Job
 	err = json.Unmarshal(jobConfigContent, &job)
 
-	err = jobSession.RunJob(&job, jobs.Environment{
-		"image": "lol3r/personal_site:latest",
-	})
+	err = jobSession.RunJob(&job)
 
 	if err != nil {
 		fmt.Printf("Jobs Error: '%v' \n", err)
