@@ -1,36 +1,36 @@
 package docker
 
 import (
-  "testing"
+	"testing"
 
-  "github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestPullImage(t *testing.T) {
-  tables := []struct{
-    Name string
-    InputImage string
-    ResultError bool
-  }{
-    {
-      Name: "Invalid Input, empty Image",
-      InputImage: "",
-      ResultError: true,
-    },
-  }
+	tables := []struct {
+		Name        string
+		InputImage  string
+		ResultError bool
+	}{
+		{
+			Name:        "Invalid Input, empty Image",
+			InputImage:  "",
+			ResultError: true,
+		},
+	}
 
-  for _, table := range tables {
-    inImage := table.InputImage
-    resultError := table.ResultError
+	for _, table := range tables {
+		inImage := table.InputImage
+		resultError := table.ResultError
 
-    t.Run(table.Name, func(t *testing.T) {
-      outputError := PullImage(nil, inImage)
+		t.Run(table.Name, func(t *testing.T) {
+			outputError := pullImage(nil, inImage)
 
-      if resultError {
-        assert.NotNil(t, outputError)
-      } else {
-        assert.Nil(t, outputError)
-      }
-    })
-  }
+			if resultError {
+				assert.NotNil(t, outputError)
+			} else {
+				assert.Nil(t, outputError)
+			}
+		})
+	}
 }

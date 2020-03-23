@@ -16,7 +16,7 @@ func (m *Module) RunStage(stage *jobs.Stage, sshClient *ssh.Client, env jobs.Env
 			return errors.New("Missing Variable: 'dockerImage'")
 		}
 
-		return PullImage(sshClient, imageName)
+		return pullImage(sshClient, imageName)
 	}
 	if stage.Action == "compose up" {
 		composeDir, found := stage.GetVariable("composeDir", env)
@@ -24,7 +24,7 @@ func (m *Module) RunStage(stage *jobs.Stage, sshClient *ssh.Client, env jobs.Env
 			return errors.New("Missing Variable: 'composeDir'")
 		}
 
-		return ComposeUp(sshClient, composeDir)
+		return composeUp(sshClient, composeDir)
 	}
 
 	return fmt.Errorf("Could not find Action in 'docker'-Category: '%s'", stage.Action)

@@ -6,7 +6,7 @@ import (
 	ssh "github.com/helloyi/go-sshclient"
 )
 
-func PullImage(sshClient *ssh.Client, image string) error {
+func pullImage(sshClient *ssh.Client, image string) error {
 	if len(image) <= 0 {
 		return errors.New("Image Parameter can not be empty")
 	}
