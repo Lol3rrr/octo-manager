@@ -5,10 +5,11 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 )
 
-func saveFilesLocally(localDir string, files []file) error {
+func saveFilesLocally(serverDir, localDir string, files []file) error {
 	if localDir[len(localDir)-1] != '/' {
 		localDir += "/"
 	}
@@ -18,15 +19,7 @@ func saveFilesLocally(localDir string, files []file) error {
 	for _, tmpFile := range files {
 		resultPath := localDir
 
-		tmpPath := tmpFile.Path
-		if tmpPath[0] == '.' {
-			tmpPath = tmpPath[1:]
-		}
-		if tmpPath[0] == '/' {
-			tmpPath = tmpPath[1:]
-		}
-
-		resultPath += tmpPath
+		resultPath += strings.ReplaceAll(tmpFile.Path, serverDir, "")
 		resultDir := filepath.Dir(resultPath)
 
 		err := os.MkdirAll(resultDir, os.ModePerm)

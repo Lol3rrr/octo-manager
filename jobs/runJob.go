@@ -10,7 +10,7 @@ func (session *Session) RunJob(job *Job) error {
 	for _, stage := range job.Stages {
 		err, module := session.RunStage(&stage)
 		if err != nil {
-			logrus.Errorf("[Job][Error] %v \n", err)
+			logrus.Errorf("[Job] %v \n", err)
 
 			if module != nil {
 				logrus.Errorf("[Job] Possible Actions: \n")
