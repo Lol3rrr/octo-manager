@@ -22,3 +22,14 @@ There are 2 types of configs needed for this to work
  * `category`: The Category of this Stage (docker, backups, etc.)
  * `action`: The Specific Action that should be executed
  * `variables`: Any needed hard-coded variables for the Action
+
+## Modules
+
+### Docker ('docker')
+Actions:
+ * 'pull': Pulls the newest Image
+ * 'compose up': Simply starts up Docker-Compose
+
+### Backup ('backup')
+Actions:
+ * 'local': Backs up the Server-Directory to the Local-Directory
