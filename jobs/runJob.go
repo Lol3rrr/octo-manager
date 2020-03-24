@@ -1,16 +1,23 @@
 package jobs
 
 import (
-	"fmt"
+	"github.com/sirupsen/logrus"
 )
 
 func (session *Session) RunJob(job *Job) error {
-	fmt.Printf("[Job][%s] Starting... \n", job.Name)
+	logrus.Infof("[Job][%s] Starting... \n", job.Name)
 
 	for _, stage := range job.Stages {
-		err := session.RunStage(&stage)
+		err, module := session.RunStage(&stage)
 		if err != nil {
-			fmt.Printf("[Job][Error] Failed '%v' \n", err)
+			logrus.Errorf("[Job][Error] %v \n", err)
+
+			if module != nil {
+				logrus.Errorf("[Job] Possible Actions: \n")
+				for _, action := range module.GetActions() {
+					logrus.Errorf("[Job] - '%s' \n", action)
+				}
+			}
 			return err
 		}
 	}

@@ -15,6 +15,7 @@ type Session struct {
 type Module interface {
 	GetCategory() string
 	RunStage(*Stage, *ssh.Client, Environment) error
+	GetActions() []string
 }
 
 // Job defines a single Job, like deployment, and includes

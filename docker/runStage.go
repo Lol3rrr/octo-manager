@@ -28,6 +28,4 @@ func (m *Module) RunStage(stage *jobs.Stage, sshClient *ssh.Client, env jobs.Env
 	}
 
 	return fmt.Errorf("Could not find Action in 'docker'-Category: '%s'", stage.Action)
-
-	return nil
 }

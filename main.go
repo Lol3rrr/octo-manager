@@ -8,6 +8,7 @@ import (
 	"os"
 	"strings"
 
+	"octo-manager/backup"
 	"octo-manager/docker"
 	"octo-manager/jobs"
 
@@ -79,6 +80,7 @@ func main() {
 		client,
 		getEnvironment(),
 		docker.NewModule(),
+		backup.NewModule(),
 	)
 
 	jobConfigContent, err := ioutil.ReadFile(*jobPathPtr)
