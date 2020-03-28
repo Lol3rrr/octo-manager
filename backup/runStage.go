@@ -22,6 +22,18 @@ func (m *Module) RunStage(stage *jobs.Stage, sshClient *ssh.Client, env jobs.Env
 
 		return backupLocally(serverDir, localDir, sshClient)
 	}
+	if stage.Action == "restore-local" {
+		localDir, found := stage.GetVariable("localDir", env)
+		if !found {
+			return errors.New("Missing Variable: 'localDir'")
+		}
+		serverDir, found := stage.GetVariable("serverDir", env)
+		if !found {
+			return errors.New("Missing Variable: 'serverDir'")
+		}
+
+		return restoreLocally(localDir, serverDir, sshClient)
+	}
 
 	return fmt.Errorf("Could not find Action in 'backup'-Category: '%s'", stage.Action)
 }

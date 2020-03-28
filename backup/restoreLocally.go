@@ -6,10 +6,10 @@ import (
 	ssh "github.com/helloyi/go-sshclient"
 )
 
-func backupLocally(serverDir, localDir string, sshClient *ssh.Client) error {
+func restoreLocally(localDir, serverDir string, sshClient *ssh.Client) error {
 	local := &local.Storage{
 		LocalDir: localDir,
 	}
 
-	return backup(serverDir, sshClient, local)
+	return restore(serverDir, sshClient, local)
 }

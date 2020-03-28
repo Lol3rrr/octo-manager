@@ -1,23 +1,24 @@
-package backup
+package local
 
 import (
 	"fmt"
 	"io/ioutil"
+	"octo-manager/backup/general"
 	"os"
 	"path/filepath"
 	"strings"
 	"time"
 )
 
-func saveFilesLocally(serverDir, localDir string, files []file) error {
-	if localDir[len(localDir)-1] != '/' {
-		localDir += "/"
+func (local *Storage) Save(serverDir string, files []general.File) error {
+	if local.LocalDir[len(local.LocalDir)-1] != '/' {
+		local.LocalDir += "/"
 	}
 
-	localDir += getTimestampString(time.Now().Unix()) + "/"
+	local.LocalDir += general.GetTimestampString(time.Now().Unix()) + "/"
 
 	for _, tmpFile := range files {
-		resultPath := localDir
+		resultPath := local.LocalDir
 
 		resultPath += strings.ReplaceAll(tmpFile.Path, serverDir, "")
 		resultDir := filepath.Dir(resultPath)

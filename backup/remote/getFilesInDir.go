@@ -1,4 +1,4 @@
-package backup
+package remote
 
 import ssh "github.com/helloyi/go-sshclient"
 

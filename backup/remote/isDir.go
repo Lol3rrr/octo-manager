@@ -1,4 +1,4 @@
-package backup
+package remote
 
 func isDir(path string) bool {
 	if len(path) <= 0 {
