@@ -6,11 +6,10 @@ import (
 	"octo-manager/backup/general"
 	"os"
 	"path/filepath"
-	"strings"
 	"time"
 )
 
-func (local *Storage) Save(serverDir string, files []general.File) error {
+func (local *Storage) Save(files []general.File) error {
 	if local.LocalDir[len(local.LocalDir)-1] != '/' {
 		local.LocalDir += "/"
 	}
@@ -20,7 +19,7 @@ func (local *Storage) Save(serverDir string, files []general.File) error {
 	for _, tmpFile := range files {
 		resultPath := local.LocalDir
 
-		resultPath += strings.ReplaceAll(tmpFile.Path, serverDir, "")
+		resultPath += tmpFile.Path
 		resultDir := filepath.Dir(resultPath)
 
 		err := os.MkdirAll(resultDir, os.ModePerm)

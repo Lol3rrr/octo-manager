@@ -21,5 +21,9 @@ func backup(serverDir string, sshClient *ssh.Client, storageInterface storage) e
 		return err
 	}
 
-	return storageInterface.Save(serverDir, files)
+	for i := range files {
+		files[i].SanitizePath(serverDir)
+	}
+
+	return storageInterface.Save(files)
 }
