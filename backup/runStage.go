@@ -10,7 +10,7 @@ import (
 
 // RunStage is used to run a single Stage using the Backup-Module
 func (m *Module) RunStage(stage *jobs.Stage, sshClient *ssh.Client, env jobs.Environment) error {
-	if stage.Action == "local" {
+	if stage.Action == "save-local" {
 		serverDir, found := stage.GetVariable("serverDir", env)
 		if !found {
 			return errors.New("Missing Variable: 'serverDir'")
@@ -22,6 +22,7 @@ func (m *Module) RunStage(stage *jobs.Stage, sshClient *ssh.Client, env jobs.Env
 
 		return backupLocally(serverDir, localDir, sshClient)
 	}
+
 	if stage.Action == "restore-local" {
 		localDir, found := stage.GetVariable("localDir", env)
 		if !found {
