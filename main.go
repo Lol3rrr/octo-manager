@@ -3,16 +3,17 @@ package main
 import (
 	"encoding/json"
 	"flag"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"strings"
 
+	"octo-manager/auth/googleDrive"
 	"octo-manager/backup"
 	"octo-manager/docker"
 	"octo-manager/jobs"
 
 	ssh "github.com/helloyi/go-sshclient"
+	"github.com/sirupsen/logrus"
 )
 
 // Config is a simple struct that holds the basic server config
@@ -56,12 +57,29 @@ func getEnvironment() jobs.Environment {
 func main() {
 	configPathPtr := flag.String("config", "config.json", "The Path for the Server-Config")
 	jobPathPtr := flag.String("job", "job.json", "The path for job definition")
+	authNamePtr := flag.String("auth", "", "Give this a value for the part and it will run the auth stuff for it")
 
 	flag.Parse()
 
+	authName := *authNamePtr
+	if len(authName) > 0 {
+		logrus.Infof("Authing... \n")
+
+		if authName == "googleDrive" {
+			err := googleDrive.Auth()
+			if err != nil {
+				logrus.Errorf("Could not Auth Google-Drive: %v \n", err)
+			}
+		} else {
+			logrus.Errorf("Unknown Auth-Name: '%s' \n", authName)
+		}
+
+		return
+	}
+
 	conf, err := loadConfig(*configPathPtr)
 	if err != nil {
-		fmt.Printf("[Error] Could not load Config: %v \n", err)
+		logrus.Errorf("Could not load Config: %v \n", err)
 		return
 	}
 
@@ -71,7 +89,7 @@ func main() {
 		conf.SSHKeyPath,
 	)
 	if err != nil {
-		fmt.Printf("[Error] Could not connect: %v \n", err)
+		logrus.Errorf("Could not connect: %v \n", err)
 		return
 	}
 	defer client.Close()
@@ -85,7 +103,7 @@ func main() {
 
 	jobConfigContent, err := ioutil.ReadFile(*jobPathPtr)
 	if err != nil {
-		fmt.Printf("[Error] Could not read Job-Config: %v \n", err)
+		logrus.Errorf("Could not read Job-Config: %v \n", err)
 		return
 	}
 
@@ -95,7 +113,7 @@ func main() {
 	err = jobSession.RunJob(&job)
 
 	if err != nil {
-		fmt.Printf("Jobs Error: '%v' \n", err)
+		logrus.Errorf("Jobs: '%v' \n", err)
 	}
 
 	return

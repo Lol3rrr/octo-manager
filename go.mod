@@ -9,4 +9,6 @@ require (
 	github.com/stretchr/testify v1.4.0
 	github.com/tmc/scp v0.0.0-20170824174625-f7b48647feef
 	golang.org/x/crypto v0.0.0-20200320181102-891825fb96df
+	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
+	google.golang.org/api v0.21.0
 )
