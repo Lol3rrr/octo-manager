@@ -1,7 +1,6 @@
 package backup
 
 import (
-	"errors"
 	"fmt"
 	"octo-manager/jobs"
 
@@ -11,29 +10,14 @@ import (
 // RunStage is used to run a single Stage using the Backup-Module
 func (m *Module) RunStage(stage *jobs.Stage, sshClient *ssh.Client, env jobs.Environment) error {
 	if stage.Action == "save-local" {
-		serverDir, found := stage.GetVariable("serverDir", env)
-		if !found {
-			return errors.New("Missing Variable: 'serverDir'")
-		}
-		localDir, found := stage.GetVariable("localDir", env)
-		if !found {
-			return errors.New("Missing Variable: 'localDir'")
-		}
-
-		return backupLocally(serverDir, localDir, sshClient)
+		return backupLocally(stage, env, sshClient)
+	}
+	if stage.Action == "save-googleDrive" {
+		return backupGoogleDrive(stage, env, sshClient)
 	}
 
 	if stage.Action == "restore-local" {
-		localDir, found := stage.GetVariable("localDir", env)
-		if !found {
-			return errors.New("Missing Variable: 'localDir'")
-		}
-		serverDir, found := stage.GetVariable("serverDir", env)
-		if !found {
-			return errors.New("Missing Variable: 'serverDir'")
-		}
-
-		return restoreLocally(localDir, serverDir, sshClient)
+		return restoreLocally(stage, env, sshClient)
 	}
 
 	return fmt.Errorf("Could not find Action in 'backup'-Category: '%s'", stage.Action)

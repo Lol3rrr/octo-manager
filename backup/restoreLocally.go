@@ -1,12 +1,23 @@
 package backup
 
 import (
+	"errors"
 	"octo-manager/backup/local"
+	"octo-manager/jobs"
 
 	ssh "github.com/helloyi/go-sshclient"
 )
 
-func restoreLocally(localDir, serverDir string, sshClient *ssh.Client) error {
+func restoreLocally(stage *jobs.Stage, env jobs.Environment, sshClient *ssh.Client) error {
+	localDir, found := stage.GetVariable("localDir", env)
+	if !found {
+		return errors.New("Missing Variable: 'localDir'")
+	}
+	serverDir, found := stage.GetVariable("serverDir", env)
+	if !found {
+		return errors.New("Missing Variable: 'serverDir'")
+	}
+
 	local := &local.Storage{
 		LocalDir: localDir,
 	}
