@@ -25,7 +25,7 @@ func GetLatestDir(parentDir string) (dirInfo, error) {
 
 	for _, fInfo := range fileInfos {
 		if fInfo.IsDir() {
-			timestamp := getTimestampFromString(fInfo.Name())
+			timestamp := GetTimestampFromString(fInfo.Name())
 			if timestamp < 0 {
 				continue
 			}
