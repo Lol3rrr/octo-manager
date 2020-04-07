@@ -29,6 +29,8 @@ jobs:
 
       - name: Install and run linter
         run: |
-          go get -u golang.org/x/lint/golint
+          go get golang.org/x/lint/golint
           ls ../../
+          ls $GOBIN
+          ls $GOPATH
           ../../bin/golint -set_exit_status ./...
