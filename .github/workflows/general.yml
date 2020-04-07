@@ -27,8 +27,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Install linter
-        run: go get -u golang.org/x/lint/golint
-
-      - name: Lint
-        run: $GOPATH/bin/golint -set_exit_status ./...
+      - name: Install and run linter
+        run: |
+          go get -u golang.org/x/lint/golint
+          $GOPATH/bin/golint -set_exit_status ./...
