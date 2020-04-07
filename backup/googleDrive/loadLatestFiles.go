@@ -17,6 +17,8 @@ func (storage *Storage) LoadLatestFiles() ([]general.File, error) {
 		return []general.File{}, err
 	}
 
+	logrus.Infof("Getting a list of all Files... \n")
+
 	fileList, err := service.Files.List().Do()
 	if err != nil {
 		return []general.File{}, err
@@ -32,6 +34,8 @@ func (storage *Storage) LoadLatestFiles() ([]general.File, error) {
 
 		rawFiles = append(rawFiles, fileList.Files...)
 	}
+
+	logrus.Infof("Getting the latest Folder... \n")
 
 	var latestFile *drive.File = nil
 	latestTimestamp := int64(-1)
@@ -53,6 +57,8 @@ func (storage *Storage) LoadLatestFiles() ([]general.File, error) {
 		return []general.File{}, errors.New("Could not find a fitting file")
 	}
 
+	logrus.Infof("Loading the latest Files... \n")
+
 	query := fmt.Sprintf("parents in '%s'", latestFile.Id)
 	filesInFolder, err := service.Files.List().Q(query).Do()
 	if err != nil {
@@ -69,6 +75,8 @@ func (storage *Storage) LoadLatestFiles() ([]general.File, error) {
 
 		rawResult = append(rawResult, filesInFolder.Files...)
 	}
+
+	logrus.Infof("Downloading files... \n")
 
 	result := make([]general.File, 0, len(rawResult))
 	for _, rawFile := range rawResult {
