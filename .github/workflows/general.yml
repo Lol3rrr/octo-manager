@@ -24,13 +24,17 @@ jobs:
           go-version: 1.14
         id: go
 
+      - name: setup env
+        run: |
+          echo "::set-env name=GOPATH::$(go env GOPATH)"
+          echo "::add-path::$(go env GOPATH)/bin"
+        shell: bash
+
       - name: Checkout Code
         uses: actions/checkout@v2
 
       - name: Install and run linter
         run: |
+          go env
           go get golang.org/x/lint/golint
-          ls ../../
-          ls $GOBIN
-          ls $GOPATH
-          ../../bin/golint -set_exit_status ./...
+          golint -set_exit_status ./...
