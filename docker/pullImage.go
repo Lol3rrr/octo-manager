@@ -7,7 +7,7 @@ import (
 
 func pullImage(remoteCon remote.Session, image string) error {
 	if len(image) <= 0 {
-		return errors.New("Image Parameter can not be empty")
+		return errors.New("image Parameter can not be empty")
 	}
 
 	cmdString := "docker pull " + image

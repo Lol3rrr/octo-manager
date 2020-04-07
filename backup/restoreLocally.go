@@ -10,11 +10,11 @@ import (
 func restoreLocally(stage *jobs.Stage, env jobs.Environment, remoteCon remote.Session) error {
 	localDir, found := stage.GetVariable("localDir", env)
 	if !found {
-		return errors.New("Missing Variable: 'localDir'")
+		return errors.New("missing Variable: 'localDir'")
 	}
 	serverDir, found := stage.GetVariable("serverDir", env)
 	if !found {
-		return errors.New("Missing Variable: 'serverDir'")
+		return errors.New("missing Variable: 'serverDir'")
 	}
 
 	local := &local.Storage{

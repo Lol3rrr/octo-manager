@@ -43,7 +43,7 @@ func getLatestDir(parentDir string) (dirInfo, error) {
 	}
 
 	if !found {
-		return dirInfo{}, errors.New("Could not find any Directory")
+		return dirInfo{}, errors.New("could not find any Directory")
 	}
 
 	return latestDir, nil

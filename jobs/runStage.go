@@ -22,5 +22,5 @@ func (session *Session) runStage(stage *Stage) (Module, error) {
 		}
 	}
 
-	return nil, fmt.Errorf("Could not find Category: '%s'", stage.Category)
+	return nil, fmt.Errorf("could not find Category: '%s'", stage.Category)
 }

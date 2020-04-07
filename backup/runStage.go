@@ -25,5 +25,5 @@ func (m *Module) RunStage(ctx *jobs.Ctx) error {
 		return restoreGoogleDrive(stage, env, remoteSession)
 	}
 
-	return fmt.Errorf("Could not find Action in 'backup'-Category: '%s'", stage.Action)
+	return fmt.Errorf("could not find Action in 'backup'-Category: '%s'", stage.Action)
 }

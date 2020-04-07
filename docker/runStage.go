@@ -15,7 +15,7 @@ func (m *Module) RunStage(ctx *jobs.Ctx) error {
 	if stage.Action == "pull" {
 		imageName, found := stage.GetVariable("dockerImage", env)
 		if !found {
-			return errors.New("Missing Variable: 'dockerImage'")
+			return errors.New("missing Variable: 'dockerImage'")
 		}
 
 		return pullImage(remoteSession, imageName)
@@ -23,11 +23,11 @@ func (m *Module) RunStage(ctx *jobs.Ctx) error {
 	if stage.Action == "compose up" {
 		composeDir, found := stage.GetVariable("composeDir", env)
 		if !found {
-			return errors.New("Missing Variable: 'composeDir'")
+			return errors.New("missing Variable: 'composeDir'")
 		}
 
 		return composeUp(remoteSession, composeDir)
 	}
 
-	return fmt.Errorf("Could not find Action in 'docker'-Category: '%s'", stage.Action)
+	return fmt.Errorf("could not find Action in 'docker'-Category: '%s'", stage.Action)
 }

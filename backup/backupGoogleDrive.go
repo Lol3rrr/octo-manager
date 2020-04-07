@@ -12,19 +12,19 @@ import (
 func backupGoogleDrive(stage *jobs.Stage, env jobs.Environment, remoteCon remote.Session) error {
 	serverDir, found := stage.GetVariable("serverDir", env)
 	if !found {
-		return errors.New("Missing Variable: 'serverDir'")
+		return errors.New("missing Variable: 'serverDir'")
 	}
 	refreshToken, found := stage.GetVariable("refreshToken", env)
 	if !found {
-		return errors.New("Missing Variable: 'refreshToken'")
+		return errors.New("missing Variable: 'refreshToken'")
 	}
 	clientID, found := stage.GetVariable("clientID", env)
 	if !found {
-		return errors.New("Missing Variable: 'clientID'")
+		return errors.New("missing Variable: 'clientID'")
 	}
 	clientSecret, found := stage.GetVariable("clientSecret", env)
 	if !found {
-		return errors.New("Missing Variable: 'clientSecret'")
+		return errors.New("missing Variable: 'clientSecret'")
 	}
 
 	drive := &googledrive.Storage{

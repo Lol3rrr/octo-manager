@@ -55,7 +55,7 @@ func (storage *Storage) LoadLatestFiles() ([]general.File, error) {
 	}
 
 	if latestFile == nil {
-		return []general.File{}, errors.New("Could not find a fitting file")
+		return []general.File{}, errors.New("could not find a fitting file")
 	}
 
 	logrus.Infof("Loading the latest Files... \n")

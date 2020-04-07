@@ -10,11 +10,11 @@ import (
 func backupLocally(stage *jobs.Stage, env jobs.Environment, remoteCon remote.Session) error {
 	serverDir, found := stage.GetVariable("serverDir", env)
 	if !found {
-		return errors.New("Missing Variable: 'serverDir'")
+		return errors.New("missing Variable: 'serverDir'")
 	}
 	localDir, found := stage.GetVariable("localDir", env)
 	if !found {
-		return errors.New("Missing Variable: 'localDir'")
+		return errors.New("missing Variable: 'localDir'")
 	}
 
 	local := &local.Storage{
