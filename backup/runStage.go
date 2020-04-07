@@ -19,6 +19,9 @@ func (m *Module) RunStage(stage *jobs.Stage, sshClient *ssh.Client, env jobs.Env
 	if stage.Action == "restore-local" {
 		return restoreLocally(stage, env, sshClient)
 	}
+	if stage.Action == "restore-googleDrive" {
+		return restoreGoogleDrive(stage, env, sshClient)
+	}
 
 	return fmt.Errorf("Could not find Action in 'backup'-Category: '%s'", stage.Action)
 }
