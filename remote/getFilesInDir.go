@@ -1,11 +1,7 @@
 package remote
 
-import (
-	"octo-manager/remote"
-)
-
-func getFilesInDir(dir string, remoteCon remote.Session) []string {
-	rawFiles, err := listFiles(dir, remoteCon)
+func (s *session) GetFilesInDir(dir string) []string {
+	rawFiles, err := s.listFiles(dir)
 	if err != nil {
 		return []string{}
 	}
@@ -13,7 +9,7 @@ func getFilesInDir(dir string, remoteCon remote.Session) []string {
 	result := make([]string, 0)
 	for _, rawFile := range rawFiles {
 		if isDir(rawFile) {
-			result = append(result, getFilesInDir(rawFile, remoteCon)...)
+			result = append(result, s.GetFilesInDir(rawFile)...)
 			continue
 		}
 

@@ -2,11 +2,10 @@ package remote
 
 import (
 	"fmt"
-	"octo-manager/remote"
 	"strings"
 )
 
-func listFiles(dir string, remoteCon remote.Session) ([]string, error) {
+func (s *session) listFiles(dir string) ([]string, error) {
 	if len(dir) == 0 {
 		dir = "."
 	}
@@ -15,7 +14,7 @@ func listFiles(dir string, remoteCon remote.Session) ([]string, error) {
 	}
 
 	commandString := fmt.Sprintf("ls -a -p %s/", dir)
-	rawOutput, err := remoteCon.Command(commandString)
+	rawOutput, err := s.Command(commandString)
 	if err != nil {
 		return []string{}, err
 	}

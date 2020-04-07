@@ -2,19 +2,18 @@ package remote
 
 import (
 	"octo-manager/backup/general"
-	"octo-manager/remote"
 	"path/filepath"
 )
 
-func WriteFiles(files []general.File, serverDir string, remoteCon remote.Session) error {
+func (s *session) WriteFiles(files []general.File, serverDir string) error {
 	for _, tmpFile := range files {
 		tmpPath := filepath.Join(serverDir, tmpFile.Path)
-		err := checkDir(filepath.Dir(tmpPath), remoteCon)
+		err := s.mkdirs(filepath.Dir(tmpPath))
 		if err != nil {
 			return err
 		}
 
-		err = writeToFile(tmpFile.Content, tmpPath, remoteCon)
+		err = s.WriteFile(tmpPath, tmpFile.Content)
 		if err != nil {
 			return err
 		}
