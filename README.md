@@ -32,4 +32,7 @@ Actions:
 
 ### Backup ('backup')
 Actions:
- * 'local': Backs up the Server-Directory to the Local-Directory
+ * 'save-local': Backs up the Server-Directory to the Local-Directory
+ * 'restore-local': Restores the Server-Directory from the Local-Directory
+ * 'save-googleDrive': Backs up the Server-Directory to a new Directory in Google Drive
+ * 'restore-googleDrive': Restores the Server-Directory from the Directory in Google Drive
