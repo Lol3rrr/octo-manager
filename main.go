@@ -110,11 +110,7 @@ func main() {
 	var job jobs.Job
 	err = json.Unmarshal(jobConfigContent, &job)
 
-	err = jobSession.RunJob(&job)
-
-	if err != nil {
-		logrus.Errorf("Jobs: '%v' \n", err)
-	}
+	jobSession.RunJob(&job)
 
 	return
 }

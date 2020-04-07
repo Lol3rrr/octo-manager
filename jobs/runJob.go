@@ -13,9 +13,12 @@ func (session *Session) RunJob(job *Job) error {
 			logrus.Errorf("[Job] %v \n", err)
 
 			if module != nil {
-				logrus.Errorf("[Job] Possible Actions: \n")
-				for _, action := range module.GetActions() {
-					logrus.Errorf("[Job] - '%s' \n", action)
+				actions := module.GetActions()
+				if len(actions) > 0 {
+					logrus.Errorf("[Job] Possible Actions: \n")
+					for _, action := range module.GetActions() {
+						logrus.Errorf("[Job] - '%s' \n", action)
+					}
 				}
 			}
 			return err
