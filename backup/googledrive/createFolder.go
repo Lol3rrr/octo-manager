@@ -1,4 +1,4 @@
-package googleDrive
+package googledrive
 
 import (
 	"google.golang.org/api/drive/v3"

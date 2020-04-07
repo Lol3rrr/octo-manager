@@ -2,7 +2,7 @@ package backup
 
 import (
 	"errors"
-	"octo-manager/backup/googleDrive"
+	"octo-manager/backup/googledrive"
 	"octo-manager/jobs"
 	"octo-manager/remote"
 
@@ -27,7 +27,7 @@ func backupGoogleDrive(stage *jobs.Stage, env jobs.Environment, remoteCon remote
 		return errors.New("Missing Variable: 'clientSecret'")
 	}
 
-	drive := &googleDrive.Storage{
+	drive := &googledrive.Storage{
 		Token: oauth2.Token{
 			TokenType:    "Bearer",
 			RefreshToken: refreshToken,

@@ -1,7 +1,7 @@
-package googleDrive
+package googledrive
 
 import (
-	"octo-manager/auth/googleDrive"
+	"octo-manager/auth/googledrive"
 	"octo-manager/backup/general"
 	"strings"
 	"time"
@@ -13,7 +13,7 @@ import (
 func (storage *Storage) Save(files []general.File) error {
 	folderName := general.GetTimestampString(time.Now().Unix())
 
-	service, err := googleDrive.GetDrive(storage.ClientID, storage.ClientSecret, &storage.Token)
+	service, err := googledrive.GetDrive(storage.ClientID, storage.ClientSecret, &storage.Token)
 	if err != nil {
 		return err
 	}

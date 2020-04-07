@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+// Save is used to save the given files locally
 func (local *Storage) Save(files []general.File) error {
 	if local.LocalDir[len(local.LocalDir)-1] != '/' {
 		local.LocalDir += "/"

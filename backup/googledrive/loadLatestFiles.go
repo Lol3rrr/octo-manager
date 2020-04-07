@@ -1,18 +1,19 @@
-package googleDrive
+package googledrive
 
 import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"octo-manager/auth/googleDrive"
+	"octo-manager/auth/googledrive"
 	"octo-manager/backup/general"
 
 	"github.com/sirupsen/logrus"
 	"google.golang.org/api/drive/v3"
 )
 
+// LoadLatestFiles is used to get the Files from the latest Backup folder
 func (storage *Storage) LoadLatestFiles() ([]general.File, error) {
-	service, err := googleDrive.GetDrive(storage.ClientID, storage.ClientSecret, &storage.Token)
+	service, err := googledrive.GetDrive(storage.ClientID, storage.ClientSecret, &storage.Token)
 	if err != nil {
 		return []general.File{}, err
 	}

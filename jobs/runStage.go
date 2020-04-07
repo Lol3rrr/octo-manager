@@ -7,7 +7,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func (session *Session) runStage(stage *Stage) (error, Module) {
+func (session *Session) runStage(stage *Stage) (Module, error) {
 	logrus.Infof("[Stage][%s] Starting... \n", stage.Name)
 
 	ctx := &Ctx{
@@ -18,9 +18,9 @@ func (session *Session) runStage(stage *Stage) (error, Module) {
 
 	for _, module := range session.Modules {
 		if module.GetCategory() == stage.Category {
-			return module.RunStage(ctx), module
+			return module, module.RunStage(ctx)
 		}
 	}
 
-	return fmt.Errorf("Could not find Category: '%s'", stage.Category), nil
+	return nil, fmt.Errorf("Could not find Category: '%s'", stage.Category)
 }

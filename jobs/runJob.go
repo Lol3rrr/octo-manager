@@ -4,11 +4,12 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// RunJob is used to run any given Job from the Config
 func (session *Session) RunJob(job *Job) error {
 	logrus.Infof("[Job][%s] Starting... \n", job.Name)
 
 	for _, stage := range job.Stages {
-		err, module := session.runStage(&stage)
+		module, err := session.runStage(&stage)
 		if err != nil {
 			logrus.Errorf("[Job] %v \n", err)
 

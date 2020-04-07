@@ -1,8 +1,9 @@
-package general
+package local
 
 import (
 	"errors"
 	"io/ioutil"
+	"octo-manager/backup/general"
 	"os"
 )
 
@@ -11,7 +12,7 @@ type dirInfo struct {
 	Info      os.FileInfo
 }
 
-func GetLatestDir(parentDir string) (dirInfo, error) {
+func getLatestDir(parentDir string) (dirInfo, error) {
 	fileInfos, err := ioutil.ReadDir(parentDir)
 	if err != nil {
 		return dirInfo{}, err
@@ -25,7 +26,7 @@ func GetLatestDir(parentDir string) (dirInfo, error) {
 
 	for _, fInfo := range fileInfos {
 		if fInfo.IsDir() {
-			timestamp := GetTimestampFromString(fInfo.Name())
+			timestamp := general.GetTimestampFromString(fInfo.Name())
 			if timestamp < 0 {
 				continue
 			}

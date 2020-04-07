@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"octo-manager/auth/googleDrive"
+	"octo-manager/auth/googledrive"
 	"octo-manager/backup"
 	"octo-manager/docker"
 	"octo-manager/jobs"
@@ -66,7 +66,7 @@ func main() {
 		logrus.Infof("Authing... \n")
 
 		if authName == "googleDrive" {
-			err := googleDrive.Auth()
+			err := googledrive.Auth()
 			if err != nil {
 				logrus.Errorf("Could not Auth Google-Drive: %v \n", err)
 			}

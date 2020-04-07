@@ -9,8 +9,9 @@ import (
 	"octo-manager/backup/general"
 )
 
+// LoadLatestFiles is used to get the files in the latest Backup folder
 func (local *Storage) LoadLatestFiles() ([]general.File, error) {
-	latestDir, err := general.GetLatestDir(local.LocalDir)
+	latestDir, err := getLatestDir(local.LocalDir)
 	if err != nil {
 		return []general.File{}, err
 	}
