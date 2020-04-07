@@ -6,12 +6,18 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func (session *Session) RunStage(stage *Stage) (error, Module) {
+func (session *Session) runStage(stage *Stage) (error, Module) {
 	logrus.Infof("[Stage][%s] Starting... \n", stage.Name)
+
+	ctx := &Ctx{
+		Stage:     stage,
+		SSHClient: session.SSHClient,
+		Env:       session.Env,
+	}
 
 	for _, module := range session.Modules {
 		if module.GetCategory() == stage.Category {
-			return module.RunStage(stage, session.SSHClient, session.Env), module
+			return module.RunStage(ctx), module
 		}
 	}
 

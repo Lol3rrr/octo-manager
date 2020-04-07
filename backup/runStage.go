@@ -3,12 +3,14 @@ package backup
 import (
 	"fmt"
 	"octo-manager/jobs"
-
-	ssh "github.com/helloyi/go-sshclient"
 )
 
 // RunStage is used to run a single Stage using the Backup-Module
-func (m *Module) RunStage(stage *jobs.Stage, sshClient *ssh.Client, env jobs.Environment) error {
+func (m *Module) RunStage(ctx *jobs.Ctx) error {
+	stage := ctx.Stage
+	sshClient := ctx.SSHClient
+	env := ctx.Env
+
 	if stage.Action == "save-local" {
 		return backupLocally(stage, env, sshClient)
 	}

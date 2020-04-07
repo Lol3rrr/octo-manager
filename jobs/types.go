@@ -14,7 +14,7 @@ type Session struct {
 // Module is a simple abstraction, that represents a single Category
 type Module interface {
 	GetCategory() string
-	RunStage(*Stage, *ssh.Client, Environment) error
+	RunStage(*Ctx) error
 	GetActions() []string
 }
 
@@ -36,3 +36,11 @@ type Stage struct {
 
 // Environment simply contains all the given Env-Variables
 type Environment map[string]string
+
+// Ctx is passed to the different Run-Stage Functions to allow
+// for easier and cleaner code
+type Ctx struct {
+	Stage     *Stage
+	SSHClient *ssh.Client
+	Env       Environment
+}

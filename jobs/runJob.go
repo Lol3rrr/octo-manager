@@ -8,7 +8,7 @@ func (session *Session) RunJob(job *Job) error {
 	logrus.Infof("[Job][%s] Starting... \n", job.Name)
 
 	for _, stage := range job.Stages {
-		err, module := session.RunStage(&stage)
+		err, module := session.runStage(&stage)
 		if err != nil {
 			logrus.Errorf("[Job] %v \n", err)
 
