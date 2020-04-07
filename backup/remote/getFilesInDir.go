@@ -1,9 +1,11 @@
 package remote
 
-import ssh "github.com/helloyi/go-sshclient"
+import (
+	"octo-manager/remote"
+)
 
-func getFilesInDir(dir string, sshClient *ssh.Client) []string {
-	rawFiles, err := listFiles(dir, sshClient)
+func getFilesInDir(dir string, remoteCon remote.Session) []string {
+	rawFiles, err := listFiles(dir, remoteCon)
 	if err != nil {
 		return []string{}
 	}
@@ -11,7 +13,7 @@ func getFilesInDir(dir string, sshClient *ssh.Client) []string {
 	result := make([]string, 0)
 	for _, rawFile := range rawFiles {
 		if isDir(rawFile) {
-			result = append(result, getFilesInDir(rawFile, sshClient)...)
+			result = append(result, getFilesInDir(rawFile, remoteCon)...)
 			continue
 		}
 

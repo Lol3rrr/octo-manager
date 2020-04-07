@@ -4,12 +4,12 @@ import (
 	"errors"
 	"octo-manager/backup/googleDrive"
 	"octo-manager/jobs"
+	"octo-manager/remote"
 
-	ssh "github.com/helloyi/go-sshclient"
 	"golang.org/x/oauth2"
 )
 
-func restoreGoogleDrive(stage *jobs.Stage, env jobs.Environment, sshClient *ssh.Client) error {
+func restoreGoogleDrive(stage *jobs.Stage, env jobs.Environment, remoteCon remote.Session) error {
 	serverDir, found := stage.GetVariable("serverDir", env)
 	if !found {
 		return errors.New("Missing Variable: 'serverDir'")
@@ -36,5 +36,5 @@ func restoreGoogleDrive(stage *jobs.Stage, env jobs.Environment, sshClient *ssh.
 		ClientSecret: clientSecret,
 	}
 
-	return restore(serverDir, sshClient, drive)
+	return restore(serverDir, remoteCon, drive)
 }

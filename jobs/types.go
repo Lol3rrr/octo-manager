@@ -1,6 +1,8 @@
 package jobs
 
 import (
+	"octo-manager/remote"
+
 	ssh "github.com/helloyi/go-sshclient"
 )
 
@@ -41,6 +43,6 @@ type Environment map[string]string
 // for easier and cleaner code
 type Ctx struct {
 	Stage     *Stage
-	SSHClient *ssh.Client
 	Env       Environment
+	RemoteCon remote.Session
 }

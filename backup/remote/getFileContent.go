@@ -2,13 +2,12 @@ package remote
 
 import (
 	"fmt"
-
-	ssh "github.com/helloyi/go-sshclient"
+	"octo-manager/remote"
 )
 
-func getFileContent(path string, sshClient *ssh.Client) string {
+func getFileContent(path string, remoteCon remote.Session) string {
 	commandString := fmt.Sprintf("cat %s", path)
-	rawOutput, err := sshClient.Cmd(commandString).Output()
+	rawOutput, err := remoteCon.Command(commandString)
 	if err != nil {
 		return ""
 	}

@@ -9,7 +9,7 @@ import (
 // RunStage is used to run a single Stage using this Module
 func (m *Module) RunStage(ctx *jobs.Ctx) error {
 	stage := ctx.Stage
-	sshClient := ctx.SSHClient
+	remoteSession := ctx.RemoteCon
 	env := ctx.Env
 
 	if stage.Action == "pull" {
@@ -18,7 +18,7 @@ func (m *Module) RunStage(ctx *jobs.Ctx) error {
 			return errors.New("Missing Variable: 'dockerImage'")
 		}
 
-		return pullImage(sshClient, imageName)
+		return pullImage(remoteSession, imageName)
 	}
 	if stage.Action == "compose up" {
 		composeDir, found := stage.GetVariable("composeDir", env)
@@ -26,7 +26,7 @@ func (m *Module) RunStage(ctx *jobs.Ctx) error {
 			return errors.New("Missing Variable: 'composeDir'")
 		}
 
-		return composeUp(sshClient, composeDir)
+		return composeUp(remoteSession, composeDir)
 	}
 
 	return fmt.Errorf("Could not find Action in 'docker'-Category: '%s'", stage.Action)

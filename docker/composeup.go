@@ -1,16 +1,16 @@
 package docker
 
 import (
-	ssh "github.com/helloyi/go-sshclient"
+	"octo-manager/remote"
 )
 
-func composeUp(sshClient *ssh.Client, dir string) error {
+func composeUp(remoteCon remote.Session, dir string) error {
 	cmdString := "docker-compose up -d;"
 	if len(dir) > 0 {
 		cmdString = "cd " + dir + ";" + cmdString
 	}
 
-	err := sshClient.Cmd(cmdString).Run()
+	_, err := remoteCon.Command(cmdString)
 	if err != nil {
 		return err
 	}

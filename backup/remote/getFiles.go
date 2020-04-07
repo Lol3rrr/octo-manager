@@ -2,17 +2,16 @@ package remote
 
 import (
 	"octo-manager/backup/general"
-
-	ssh "github.com/helloyi/go-sshclient"
+	"octo-manager/remote"
 )
 
-func GetFiles(dir string, sshClient *ssh.Client) ([]general.File, error) {
-	files := getFilesInDir(dir, sshClient)
+func GetFiles(dir string, remoteCon remote.Session) ([]general.File, error) {
+	files := getFilesInDir(dir, remoteCon)
 
 	result := make([]general.File, 0, len(files))
 
 	for _, tmpFile := range files {
-		fContent := getFileContent(tmpFile, sshClient)
+		fContent := getFileContent(tmpFile, remoteCon)
 		result = append(result, general.File{
 			Path:    tmpFile,
 			Content: fContent,

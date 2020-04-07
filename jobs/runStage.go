@@ -2,6 +2,7 @@ package jobs
 
 import (
 	"fmt"
+	"octo-manager/remote"
 
 	"github.com/sirupsen/logrus"
 )
@@ -11,8 +12,8 @@ func (session *Session) runStage(stage *Stage) (error, Module) {
 
 	ctx := &Ctx{
 		Stage:     stage,
-		SSHClient: session.SSHClient,
 		Env:       session.Env,
+		RemoteCon: remote.CreateRemoteCon(session.SSHClient),
 	}
 
 	for _, module := range session.Modules {

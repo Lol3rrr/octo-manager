@@ -2,17 +2,16 @@ package docker
 
 import (
 	"errors"
-
-	ssh "github.com/helloyi/go-sshclient"
+	"octo-manager/remote"
 )
 
-func pullImage(sshClient *ssh.Client, image string) error {
+func pullImage(remoteCon remote.Session, image string) error {
 	if len(image) <= 0 {
 		return errors.New("Image Parameter can not be empty")
 	}
 
 	cmdString := "docker pull " + image
-	_, err := sshClient.Cmd(cmdString).Output()
+	_, err := remoteCon.Command(cmdString)
 	if err != nil {
 		return err
 	}

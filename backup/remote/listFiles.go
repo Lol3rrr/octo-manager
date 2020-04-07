@@ -2,12 +2,11 @@ package remote
 
 import (
 	"fmt"
+	"octo-manager/remote"
 	"strings"
-
-	ssh "github.com/helloyi/go-sshclient"
 )
 
-func listFiles(dir string, sshClient *ssh.Client) ([]string, error) {
+func listFiles(dir string, remoteCon remote.Session) ([]string, error) {
 	if len(dir) == 0 {
 		dir = "."
 	}
@@ -16,7 +15,7 @@ func listFiles(dir string, sshClient *ssh.Client) ([]string, error) {
 	}
 
 	commandString := fmt.Sprintf("ls -a -p %s/", dir)
-	rawOutput, err := sshClient.Cmd(commandString).Output()
+	rawOutput, err := remoteCon.Command(commandString)
 	if err != nil {
 		return []string{}, err
 	}

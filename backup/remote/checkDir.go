@@ -2,23 +2,21 @@ package remote
 
 import (
 	"fmt"
+	"octo-manager/remote"
 	"path/filepath"
 	"strings"
-
-	ssh "github.com/helloyi/go-sshclient"
 )
 
-
-func checkDir(dir string, sshClient *ssh.Client) error {
+func checkDir(dir string, remoteCon remote.Session) error {
 	dirs := strings.Split(dir, "/")
 	for i := range dirs {
 		tmpPath := filepath.Join(dirs[:i+1]...)
 
 		cdCmd := fmt.Sprintf("cd %s", tmpPath)
-		err := sshClient.Cmd(cdCmd).Run()
+		_, err := remoteCon.Command(cdCmd)
 		if err != nil {
 			mkdirCmd := fmt.Sprintf("mkdir %s", tmpPath)
-			err = sshClient.Cmd(mkdirCmd).Run()
+			_, err = remoteCon.Command(mkdirCmd)
 
 			if err != nil {
 				return err

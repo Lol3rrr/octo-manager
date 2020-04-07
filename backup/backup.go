@@ -2,12 +2,12 @@ package backup
 
 import (
 	"octo-manager/backup/remote"
+	sshRemote "octo-manager/remote"
 
-	ssh "github.com/helloyi/go-sshclient"
 	"github.com/sirupsen/logrus"
 )
 
-func backup(serverDir string, sshClient *ssh.Client, storageInterface storage) error {
+func backup(serverDir string, remoteCon sshRemote.Session, storageInterface storage) error {
 	if len(serverDir) == 0 {
 		serverDir = "."
 	}
@@ -16,7 +16,7 @@ func backup(serverDir string, sshClient *ssh.Client, storageInterface storage) e
 	}
 
 	logrus.Infof("[Backup] Getting a list of all Files... \n")
-	files, err := remote.GetFiles(serverDir, sshClient)
+	files, err := remote.GetFiles(serverDir, remoteCon)
 	if err != nil {
 		return err
 	}
