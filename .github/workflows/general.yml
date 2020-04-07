@@ -35,6 +35,5 @@ jobs:
 
       - name: Install and run linter
         run: |
-          go env
           go get golang.org/x/lint/golint
           golint -set_exit_status -min_confidence 0.6 ./...
