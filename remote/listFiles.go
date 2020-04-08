@@ -3,6 +3,8 @@ package remote
 import (
 	"fmt"
 	"strings"
+
+	"github.com/sirupsen/logrus"
 )
 
 func (s *session) listFiles(dir string) ([]string, error) {
@@ -12,6 +14,8 @@ func (s *session) listFiles(dir string) ([]string, error) {
 	if dir[len(dir)-1] == '/' {
 		dir = dir[:len(dir)-1]
 	}
+
+	logrus.Debugf("[ListFiles] Listing Dir: '%s' \n", dir)
 
 	commandString := fmt.Sprintf("ls -a -p %s/", dir)
 	rawOutput, err := s.Command(commandString)
@@ -23,12 +27,16 @@ func (s *session) listFiles(dir string) ([]string, error) {
 	outputLines := strings.Split(output, "\n")
 	outputLines = outputLines[:len(outputLines)-1]
 
-	result := make([]string, 0, len(outputLines)-2)
+	result := make([]string, 0)
 	for _, line := range outputLines {
-		if line == "./" || line == "../" {
+		if len(line) <= 0 || line == "./" || line == "../" {
 			continue
 		}
-		result = append(result, dir+"/"+line)
+
+		path := dir + "/" + line
+
+		logrus.Debugf("[ListFiles] Found Folder: '%s' \n", path)
+		result = append(result, path)
 	}
 
 	return result, nil

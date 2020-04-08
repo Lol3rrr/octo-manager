@@ -2,12 +2,21 @@ package remote
 
 import (
 	"bytes"
+	"crypto/rand"
+	"encoding/base64"
+	"errors"
+	"fmt"
 	"io/ioutil"
 	"strings"
 )
 
 func (s *session) Command(cmd string) (string, error) {
-	cReader := strings.NewReader(cmd)
+	rawSeperator := make([]byte, 100)
+	rand.Read(rawSeperator)
+	seperator := base64.StdEncoding.EncodeToString(rawSeperator)
+	preCmd := fmt.Sprintf("echo '%s';", seperator)
+
+	cReader := strings.NewReader(preCmd + cmd)
 	cWriter := bytes.NewBuffer([]byte{})
 	shell := s.SSHClient.Shell().SetStdio(cReader, cWriter, cWriter)
 	err := shell.Start()
@@ -20,5 +29,13 @@ func (s *session) Command(cmd string) (string, error) {
 		return "", err
 	}
 
-	return string(out), nil
+	rawOutStr := string(out)
+	seperatorIndex := strings.Index(rawOutStr, seperator)
+	if seperatorIndex < 0 {
+		return "", errors.New("Command was not executed correctly")
+	}
+
+	sectionStart := seperatorIndex + len(seperator)
+
+	return rawOutStr[sectionStart:], nil
 }
