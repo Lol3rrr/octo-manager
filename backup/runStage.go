@@ -25,5 +25,9 @@ func (m *Module) RunStage(ctx *jobs.Ctx) error {
 		return restoreGoogleDrive(stage, env, remoteSession)
 	}
 
+	if stage.Action == "delete-local" {
+		return deleteLocally(stage, env, remoteSession)
+	}
+
 	return fmt.Errorf("could not find Action in 'backup'-Category: '%s'", stage.Action)
 }
