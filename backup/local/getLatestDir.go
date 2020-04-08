@@ -2,43 +2,22 @@ package local
 
 import (
 	"errors"
-	"io/ioutil"
-	"octo-manager/backup/general"
-	"os"
 )
 
-type dirInfo struct {
-	Timestamp int64
-	Info      os.FileInfo
-}
-
 func getLatestDir(parentDir string) (dirInfo, error) {
-	fileInfos, err := ioutil.ReadDir(parentDir)
+	dirs, err := getBackupDirs(parentDir)
 	if err != nil {
 		return dirInfo{}, err
 	}
 
-	latestDir := dirInfo{
-		Timestamp: -1,
-		Info:      nil,
-	}
+	latestDir := dirInfo{}
 	found := false
 
-	for _, fInfo := range fileInfos {
-		if fInfo.IsDir() {
-			timestamp := general.GetTimestampFromString(fInfo.Name())
-			if timestamp < 0 {
-				continue
-			}
+	for _, dir := range dirs {
+		if latestDir.Timestamp < dir.Timestamp {
+			latestDir = dir
 
-			if latestDir.Timestamp < timestamp {
-				latestDir = dirInfo{
-					Timestamp: timestamp,
-					Info:      fInfo,
-				}
-
-				found = true
-			}
+			found = true
 		}
 	}
 
