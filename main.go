@@ -54,6 +54,20 @@ func getEnvironment() jobs.Environment {
 	return result
 }
 
+func init() {
+	lvl, ok := os.LookupEnv("LOG_LEVEL")
+	if !ok {
+		lvl = "debug"
+	}
+
+	ll, err := logrus.ParseLevel(lvl)
+	if err != nil {
+		ll = logrus.DebugLevel
+	}
+
+	logrus.SetLevel(ll)
+}
+
 func main() {
 	configPathPtr := flag.String("config", "config.json", "The Path for the Server-Config")
 	jobPathPtr := flag.String("job", "job.json", "The path for job definition")
