@@ -32,7 +32,7 @@ func (s *session) Command(cmd string) (string, error) {
 	rawOutStr := string(out)
 	seperatorIndex := strings.Index(rawOutStr, seperator)
 	if seperatorIndex < 0 {
-		return "", errors.New("Command was not executed correctly")
+		return "", errors.New("command was not executed correctly")
 	}
 
 	sectionStart := seperatorIndex + len(seperator)
