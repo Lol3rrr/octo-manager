@@ -34,5 +34,7 @@ Actions:
 Actions:
  * 'save-local': Backs up the Server-Directory to the Local-Directory
  * 'restore-local': Restores the Server-Directory from the Local-Directory
+ * 'delete-local': Deletes all Backup-Directorys in the Local-Directory older than X hours
  * 'save-googleDrive': Backs up the Server-Directory to a new Directory in Google Drive
  * 'restore-googleDrive': Restores the Server-Directory from the Directory in Google Drive
+ * 'delete-local': Deletes all Backup-Directorys older than X hours
