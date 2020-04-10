@@ -57,7 +57,7 @@ func getEnvironment() jobs.Environment {
 func init() {
 	lvl, ok := os.LookupEnv("LOG_LEVEL")
 	if !ok {
-		lvl = "debug"
+		lvl = "info"
 	}
 
 	ll, err := logrus.ParseLevel(lvl)

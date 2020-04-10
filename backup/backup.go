@@ -14,15 +14,18 @@ func backup(serverDir string, remoteCon remote.Session, storageInterface storage
 		serverDir = serverDir[:len(serverDir)-1]
 	}
 
+	logrus.Infof("[Backup] Starting Backup of '%s' \n", serverDir)
 	logrus.Infof("[Backup] Getting a list of all Files... \n")
 	files, err := remoteCon.GetFiles(serverDir)
 	if err != nil {
 		return err
 	}
 
+	logrus.Infof("[Backup] Sanitizing Paths... \n")
 	for i := range files {
 		files[i].SanitizePath(serverDir)
 	}
 
+	logrus.Infof("[Backup] Saving Files... \n")
 	return storageInterface.Save(files)
 }
