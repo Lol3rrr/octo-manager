@@ -38,3 +38,8 @@ Actions:
  * 'save-googleDrive': Backs up the Server-Directory to a new Directory in Google Drive
  * 'restore-googleDrive': Restores the Server-Directory from the Directory in Google Drive
  * 'delete-local': Deletes all Backup-Directorys older than X hours
+
+## Command Line Flags
+ * 'config': Used to specify another file for the config-file
+ * 'job': Used to specify another file for the job-file
+ * 'auth': Used if you want to auth to use different modules, like googleDrive
