@@ -2,7 +2,7 @@ on:
   push:
     tags:
       - 'v*'
-name: Build
+name: Release
 jobs:
   build-linux-amd64:
     name: Build linux/amd64
