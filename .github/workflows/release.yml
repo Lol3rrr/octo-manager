@@ -36,13 +36,12 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: linux_x64
-          path: ./linux_x64
+          path: ./
       
       - name: Testing Stuff
         run: |
           ls -a -p
           stat linux_x64
-          ls -a -p linux_x64/
 
       - name: Create Release
         id: create_release
