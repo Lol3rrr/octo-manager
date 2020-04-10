@@ -37,7 +37,12 @@ jobs:
         with:
           name: linux_x64
           path: ./linux_x64
-          
+      
+      - name: Testing Stuff
+        run: |
+          ls -a
+          stat linux_x64
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
