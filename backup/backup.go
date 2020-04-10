@@ -15,7 +15,7 @@ func backup(serverDir string, remoteCon remote.Session, storageInterface storage
 	}
 
 	logrus.Infof("[Backup] Starting Backup of '%s' \n", serverDir)
-	logrus.Infof("[Backup] Getting a list of all Files... \n")
+	logrus.Infof("[Backup] Getting Files... \n")
 	files, err := remoteCon.GetFiles(serverDir)
 	if err != nil {
 		return err
