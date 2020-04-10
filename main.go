@@ -123,8 +123,17 @@ func main() {
 
 	var job jobs.Job
 	err = json.Unmarshal(jobConfigContent, &job)
+	if err != nil {
+		logrus.Errorf("Job config file error: %v \n", err)
+		os.Exit(-1)
+		return
+	}
 
-	jobSession.RunJob(&job)
+	err = jobSession.RunJob(&job)
+	if err != nil {
+		os.Exit(-1)
+		return
+	}
 
 	return
 }
