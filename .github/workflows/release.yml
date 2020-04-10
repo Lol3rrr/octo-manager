@@ -40,9 +40,9 @@ jobs:
       
       - name: Testing Stuff
         run: |
-          ls -a
+          ls -a -p
           stat linux_x64
-          ls -a linux_x64/
+          ls -a -p linux_x64/
 
       - name: Create Release
         id: create_release
