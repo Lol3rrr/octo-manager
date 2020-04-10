@@ -17,7 +17,7 @@ func (storage *Storage) DeleteOld(thresholdTime int64) error {
 	}
 
 	for _, dir := range backupDirs {
-		if thresholdTime > dir.Timestamp {
+		if thresholdTime < dir.Timestamp {
 			continue
 		}
 

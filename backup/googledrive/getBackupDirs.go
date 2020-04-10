@@ -8,7 +8,7 @@ import (
 )
 
 func getBackupDirs(service *drive.Service) ([]backupFolder, error) {
-	logrus.Infof("Getting a list of all Files... \n")
+	logrus.Infof("[GetBackupDirs] Getting a list Files... \n")
 
 	fileList, err := service.Files.List().Do()
 	if err != nil {
