@@ -42,6 +42,7 @@ jobs:
         run: |
           ls -a
           stat linux_x64
+          ls -a linux_x64/
 
       - name: Create Release
         id: create_release
