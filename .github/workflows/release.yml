@@ -4,8 +4,8 @@ on:
       - 'v*'
 name: Build
 jobs:
-  release-linux-amd64:
-    name: release linux/amd64
+  build-linux-amd64:
+    name: Build linux/amd64
     runs-on: ubuntu-latest
     steps:
       - name: Install go
@@ -20,6 +20,23 @@ jobs:
       - name: Build
         run: GOOS=linux GOARCH=amd64 go build -o linux_x64 .
       
+      - name: Upload build
+        uses: actions/upload-artifact@v1
+        with:
+          name: linux_x64
+          path: linux_x64
+  
+  create-release:
+    name: Create Release and upload artifacts
+    runs-on: ubuntu-latest
+    needs: 
+      - build-linux-amd64
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: linux_x64
+          
       - name: Create Release
         uses: actions/create-release@v1
         env:
@@ -27,8 +44,9 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          draft: false
+          draft: true
           prerelease: false
+
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
