@@ -8,6 +8,9 @@ type Session interface {
 	// Command simply executes a command on the Server and
 	// returns the result
 	Command(cmd string) (string, error)
+	// ShellCommand creates a shell on the Server and then executes
+	// the command using the shell
+	ShellCommand(cmd string) (string, error)
 	// GetFileContent returns the Content of the file for the given path
 	// Empty if an error occured
 	GetFileContent(path string) string

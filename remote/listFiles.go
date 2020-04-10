@@ -35,7 +35,7 @@ func (s *session) listFiles(dir string) ([]string, error) {
 
 		path := dir + "/" + line
 
-		logrus.Debugf("[ListFiles] Found Folder: '%s' \n", path)
+		logrus.Debugf("[ListFiles] Found Path: '%s' \n", path)
 		result = append(result, path)
 	}
 

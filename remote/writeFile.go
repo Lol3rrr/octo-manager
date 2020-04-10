@@ -6,7 +6,7 @@ func (s *session) WriteFile(path, content string) error {
 	rawWriteCmd := fmt.Sprintf("cat > %s \n", path)
 
 	writeCmd := rawWriteCmd + content
-	_, err := s.Command(writeCmd)
+	_, err := s.ShellCommand(writeCmd)
 	if err != nil {
 		return err
 	}
