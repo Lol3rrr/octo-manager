@@ -1,12 +1,13 @@
 # Octo-Manager
 Is a simple tools that is designed to help automate tasks when managing servers yourself
 
-## Setup
+## Download
 To download the latest Release you can just use the link `https://github.com/Lol3rrr/octo-manager/releases/latest/download/{distro}`.
 Simply replace the `{distro}` with the one you need.
 Possible Distros:
  * 'linux_x64': 64bit Linux
 
+## Setup
 
 There are 2 types of configs needed for this to work
  * `config.json` contains all the Server-Configuration, so address, username etc.
